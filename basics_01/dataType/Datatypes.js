@@ -1,14 +1,28 @@
 let name = "String";
 let value = 10;
-let student;
+let student;  // undefined
 
-let stuId = null;
+let stuId = null; // stand alone value
 
 let isTrue = false;
+
+console.log(typeof null);
+
+// output -> null
+console.log(typeof undefined);
+// output -> undefined
 
 console.table([typeof name, typeof value, typeof student, typeof stuId, typeof isTrue]);
 
 // symbol => unique datatype
+
+// number => 2 to power 53
+// bigint
+// string => ""
+// boolean => true/false
+// null => standalone value
+// undefined =>
+// symbol => unique
 
 // output
 // ┌─────────┬─────────────┐
