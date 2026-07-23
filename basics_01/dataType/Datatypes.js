@@ -35,3 +35,13 @@ console.table([typeof name, typeof value, typeof student, typeof stuId, typeof i
 // │ 4       │ 'boolean'   │
 // └─────────┴─────────────┘
 
+// -------- Symbol ---------
+let id = Symbol('123');
+const anoId = Symbol('123');
+
+console.log(id === anoId);
+
+// out put -> false
+
+const bigNumber = 9999921342391237497541243142143n
+console.log(bigNumber);

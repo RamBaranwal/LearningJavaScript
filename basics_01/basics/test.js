@@ -1,10 +1,19 @@
 console.log("Hitesh");
 
-// var is bad a before days due to block scope and functional scope
+// var is bad in a before days due to block scope and functional scope
 // now a days it is not used
 let name = "Rithesh";
+// the difference we cannot make same name variable into same block
+// let name = "Mohan";
+
+
 var rollno = 24;
+var rollno = 34;
+
+
 const naame = "Kumar";
+// give error due to not reinitialization
+// naame = "Mohan";
 
 // we can use any variable without declare to it
 school = "sudar";
