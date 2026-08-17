@@ -72,10 +72,13 @@ const myNewArr1 = arr1.slice(3, 7); // not include last element
 console.log("B ", myNewArr1);
 console.log("A ", arr1);
 
+//          arrays start from ->  <-  take on take particular number of arrays like 5 means till five element
 const myNew2Arr1 = arr1.splice(3, 5);
 // manupulate array
 // remove number of elements from arr starting index -> remove number of elements
 console.log("C ", myNew2Arr1);
+
+// now only rest elemtns are there which is removed after the splice
 console.log("A ", arr1);
 
 

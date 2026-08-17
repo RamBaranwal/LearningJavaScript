@@ -7,8 +7,8 @@ let stuId = null; // stand alone value
 let isTrue = false;
 
 console.log(typeof null);
-
 // output -> null
+
 console.log(typeof undefined);
 // output -> undefined
 
@@ -40,8 +40,9 @@ let id = Symbol('123');
 const anoId = Symbol('123');
 
 console.log(id === anoId);
-
-// out put -> false
+console.log(id == anoId);
+// output -> false
+// output -> false
 
 const bigNumber = 9999921342391237497541243142143n
 console.log(bigNumber);

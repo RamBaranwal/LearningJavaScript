@@ -38,11 +38,12 @@ console.log(jsUser);
 // -- after freeze we cannot update any value --
 // also it is not showing any error
 // =======================
-// Object.freeze(jsUser); +++++++++++++++++
+// Object.freeze(jsUser); +++++++++++++++++     this is usable not for notes
 // =======================
 jsUser["email"] = "chatGPT.com";
 console.log(jsUser);
 
+// after using of freeze
 // output
 // {
 //   name: 'hitesh',
@@ -71,6 +72,10 @@ console.log(jsUser.greeting());
 console.log(jsUser.greeting);
 // output
 // [Function (anonymous)]
+
+jsUser.greeting();
+// output
+// hello jii ki haal thoda
 
 jsUser.greetingName = function(){
     console.log(`hello ji kaise ho tusi, ${this["full name"]}`);

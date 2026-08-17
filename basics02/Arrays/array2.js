@@ -58,18 +58,45 @@ console.log(flatArrays1);
 // output
 // [ 2, 4, 1, 7, 4, 9, 0, 3, 4, 6, 6, 2, 5, 2, 5, 5, 5, 5 ]
 
+const spread = [... array1, ...flatArrays1];
+console.log(spread);
+// not good for this type of arrays
+// [
+//   2,
+//   4,
+//   1,
+//   [ 7, 4, 9, 0 ],
+//   3,
+//   [ [ 4, 6, 6, 2 ], 5, 2 ],
+//   [ 5, [ 5, 5 ], 5 ],
+// 2,
+// 4,
+// 7,
+// 1,
+// .
+// .
+// .
+// ]
+
 
 // -------------------------------
 // making arrays form scrap values
 // -------------------------------
 console.log(Array.isArray("Hitesh"));
 console.log(Array.from("Hitesh"));
-console.log(Array.from({name: "Hitesh"}));   // when we have to tek key or values arrays we have to define them first
+console.log(Array.from({name: "Hitesh"}));   // when we have to take key or values arrays we have to define them first
+console.log(Array.from({ 0: "Hitesh", 1: "Rimi", length: 2 }));
+console.log(Array.from({ 0: "Hitesh", 1: "Rimi", length: 1 }));
+console.log(Array.from({ 0: "Rohan", length: 1 }));
 
 // output
 // false
 // [ 'H', 'i', 't', 'e', 's', 'h' ]
 // []
+// [ 'Hitesh', 'Rimi' ]
+// [ 'Hitesh' ]
+// [ 'Rohan' ]
+// [ 340, 120, 420 ]
 
 // ---------------------------------------
 // making numbers of variable form a array
