@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Async Sync</title>
+</head>
+<body>
+    <h1>Chai aur code</h1>
+    <button id="stop">Stop</button>
+</body>
+<script>
+    // --------------------------------------------------
+    // 1. setTimeout()
+    // --------------------------------------------------
+    setTimeout(function () {
+        console.log("Hitesh");
+    }, 2000);
+
+    // --------------------------------------------------
+    // 2. Creating a function
+    // --------------------------------------------------
+    const changeText = function () {
+        document.querySelector('h1').innerHTML =
+            `This is the best JS series`;
+    };
+    // --------------------------------------------------
+    // 3. Calling setTimeout()
+    // --------------------------------------------------
+    const setText = setTimeout(changeText, 2000);
+    // setTimeout() returns an ID/reference.
+    // We store that ID inside setText.
+
+    // setText
+    //    ↓
+    // Timeout ID
+
+    // We can use this ID with clearTimeout()
+    // to cancel the scheduled function.
+
+    // --------------------------------------------------
+    // 4. clearTimeout()
+    // --------------------------------------------------
+
+    document.querySelector('#stop').addEventListener(
+        'click',function (e) {
+            clearTimeout(setText);
+            console.log("Stopped");
+        }, false
+    );
+</script>
+
+</html>

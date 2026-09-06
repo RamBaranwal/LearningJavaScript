@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chai aur Code - DOM Manipulation</title>
+</head>
+<body style="background: #212121; color: #ffff">
+    <div class="parent">
+        <ul class="language">
+            <li>JavaScript</li>
+        </ul>
+    </div>
+    <script>
+        // =========================================================
+        // 1. ADD ELEMENT USING innerHTML
+        // =========================================================
+
+        function addLanguage(langName) {
+            // Create a new <li> element
+            const li = document.createElement('li');
+            // Add text/HTML inside <li>
+            li.innerHTML = `${langName}`;
+            // Select <ul> and add <li> at the end
+            document.querySelector('.language').appendChild(li);
+        }
+
+        // =========================================================
+        // 2. ADD ELEMENT USING createTextNode()
+        // =========================================================
+        function optimizedAddLanguage(langName) {
+            // Create <li>
+            const li = document.createElement('li');
+            // Create text node
+            const text = document.createTextNode(langName);
+            // Add text node inside <li>
+            li.appendChild(text);
+            // Add <li> inside <ul>
+            document.querySelector('.language').appendChild(li);
+        }
+
+        // =========================================================
+        // 3. ADD ELEMENT USING textContent
+        // =========================================================
+        function addLanguageUsingTextContent(langName) {
+            // Create <li>
+            const li = document.createElement('li');
+            // Add text directly
+            li.textContent = langName;
+            // Add <li> inside <ul>
+            document.querySelector('.language').appendChild(li);
+        }
+
+        // =========================================================
+        // 4. ADD SOME LANGUAGES
+        // =========================================================
+        addLanguage('Python');
+        addLanguage('Java');
+        optimizedAddLanguage('C++');
+        addLanguageUsingTextContent('Ruby');
+
+        // =========================================================
+        // CURRENT LIST
+        // =========================================================
+        /*
+            JavaScript
+            Python
+            Java
+            C++
+            Ruby
+        */
+
+        // =========================================================
+        // 5. EDIT EXISTING ELEMENT USING textContent
+        // =========================================================
+        // Select second <li>
+        const secondLanguage =
+            document.querySelector('.language li:nth-child(2)');
+
+        // Change Python -> Mojo
+        secondLanguage.textContent = 'Mojo';
+
+        // =========================================================
+        // 6. EDIT EXISTING ELEMENT USING innerHTML
+        // =========================================================
+        // Add HTML inside the element
+        secondLanguage.innerHTML = '<strong>Mojo</strong>';
+
+        // =========================================================
+        // 7. CREATE A NEW NODE
+        // =========================================================
+        const newLi = document.createElement('li');
+        // Add text to new element
+        newLi.textContent = 'TypeScript';
+
+        // =========================================================
+        // 8. REPLACE EXISTING ELEMENT
+        // =========================================================
+        // Replace secondLanguage with newLi
+        // if we have to run the second line we have to comment first one
+        <!-- secondLanguage.replaceWith(newLi); -->
+        <!-- secondLanguage.outerHTML = '<ol><li>TypeScript</li></ol>' -->
+
+        // =========================================================
+        // 9. REMOVE ELEMENT
+        // =========================================================
+        // Remove secondLanguage
+        <!-- secondLanguage.remove(); -->
+
+        // =========================================================
+        // 10. EDIT USING outerHTML
+        // =========================================================
+        // Select first <li>
+        const firstLan =
+            document.querySelector('.language li:first-child');
+        // Replace complete element
+        firstLan.outerHTML = '<li>C#</li>';
+
+        // =========================================================
+        // 11. SELECT PARENT ELEMENT
+        // =========================================================
+        const language =
+            document.querySelector('.language');
+
+        // =========================================================
+        // 12. CHILD NODE TRAVERSING
+        // =========================================================
+        // All child nodes
+        console.log('childNodes:');
+        console.log(language.childNodes);
+        // All child elements
+        console.log('children:');
+        console.log(language.children);
+        // First child element
+        console.log('firstElementChild:');
+        console.log(language.firstElementChild);
+        // Last child element
+        console.log('lastElementChild:');
+        console.log(language.lastElementChild);
+
+        // =========================================================
+        // 13. PARENT TRAVERSING
+        // =========================================================
+        const firstLanguage =
+            language.firstElementChild;
+        // Get parent element
+        console.log('parentElement:');
+        console.log(firstLanguage.parentElement);
+
+        // =========================================================
+        // 14. SIBLING TRAVERSING
+        // =========================================================
+        // Get next sibling
+        console.log('nextElementSibling:');
+        console.log(firstLanguage.nextElementSibling);
+        // Get previous sibling
+        console.log('previousElementSibling:');
+        console.log(firstLanguage.previousElementSibling);
+
+        // =========================================================
+        // 15. OTHER USEFUL TRAVERSING PROPERTIES
+        // =========================================================
+        console.log('First Child:');
+        console.log(language.firstChild);
+        console.log('Last Child:');
+        console.log(language.lastChild);
+        console.log('Parent Node:');
+        console.log(language.parentNode);
+
+        // =========================================================
+        // 16. ADD ELEMENT AT BEGINNING
+        // =========================================================
+        const newFirstLanguage =
+            document.createElement('li');
+        newFirstLanguage.textContent = 'HTML';
+        // Add before first child
+        language.prepend(newFirstLanguage);
+
+        // =========================================================
+        // 17. ADD ELEMENT AT END
+        // =========================================================
+        const newLastLanguage =
+            document.createElement('li');
+        newLastLanguage.textContent = 'CSS';
+        language.append(newLastLanguage);
+
+        // =========================================================
+        // 18. INSERT ELEMENT BEFORE ANOTHER ELEMENT
+        // =========================================================
+        const anotherLanguage =
+            document.createElement('li');
+
+        anotherLanguage.textContent = 'C';
+
+        // Insert C before first language
+        language.insertBefore(
+            anotherLanguage,
+            language.firstElementChild
+        );
+
+
+        // =========================================================
+        // 19. CREATE ELEMENT WITH CLASS
+        // =========================================================
+
+        const specialLanguage =
+            document.createElement('li');
+
+        specialLanguage.textContent = 'Go';
+
+        // Add class
+        specialLanguage.classList.add('special');
+
+        language.appendChild(specialLanguage);
+
+
+        // =========================================================
+        // 20. ADD ATTRIBUTE
+        // =========================================================
+
+        console.log(specialLanguage.setAttribute(
+            'data-language',
+            'golang'
+        ));
+
+
+        // =========================================================
+        // 21. GET ATTRIBUTE
+        // =========================================================
+
+        console.log(
+            specialLanguage.getAttribute('data-language')
+        );
+
+
+        // =========================================================
+        // 22. REMOVE ATTRIBUTE
+        // =========================================================
+
+        // specialLanguage.removeAttribute('data-language');
+
+
+        // =========================================================
+        // 23. CLASSLIST
+        // =========================================================
+
+        // Add class
+        specialLanguage.classList.add('active');
+
+        // Remove class
+        // specialLanguage.classList.remove('active');
+
+        // Check class
+        console.log(
+            specialLanguage.classList.contains('active')
+        );
+
+        // Toggle class
+        specialLanguage.classList.toggle('active');
+
+        // =========================================================
+        // 24. FINAL LIST
+        // =========================================================
+        console.log('Final Language List:');
+        console.log(language.children);
+    </script>
+</body>
+</html>

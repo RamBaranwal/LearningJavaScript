@@ -8,6 +8,8 @@ const res = nums.reduce( function (acc, currval) {
 //  ||
     // initial value is 0 we can give here 1 2 3 any one of these
 
+
+// this is done by the arrow function
 const res1 = nums.reduce( (acc, currval) => acc + currval , 0);
 console.log(res1);
 

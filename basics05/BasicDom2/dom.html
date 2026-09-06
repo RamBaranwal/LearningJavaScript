@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM (Document Object Model)</title>
+</head>
+<body style="background: black; color: white">
+
+    <div class="parent">
+        <p>this is just for experiment line</p>
+        <div class="day">Monday</div>
+        <div class="day">Tuesday</div>
+        <div class="day">Wednesday</div>
+        <div class="day">Thursday</div>
+        <div class="day">Friday</div>
+        <div class="day">Saturday</div>
+        <div class="day">Sunday</div>
+    </div>
+</body>
+<script>
+    const parentEle = document.querySelector('.parent');
+    console.log(parentEle);
+    // <div class="parent">…</div>
+    
+    console.log(parentEle.children);
+    
+    // HTMLCollection(8) [p, div.day, div.day, div.day, div.day, div.day, div.day, div.day]
+    // 0: p
+    // 1: div.day
+    // 2: div.day
+    // 3: div.day
+    // 4: div.day
+    // 5: div.day
+    // 6: div.day
+    // 7: div.day
+    // length: 8
+    // [[Prototype]]: HTMLCollection
+
+    console.log(parentEle.children[1]);
+    // <div class="day">Monday</div>
+    
+    console.log("");
+    for(let i = 0; i < parentEle.children.length; i++){
+        console.log(parentEle.children[i]);
+    }
+    console.log("");
+    <!-- Array.from(parentEle.children).forEach(function (days){ -->
+        <!-- console.log(days); -->
+    <!-- }); -->
+    
+    console.log(parentEle.firstElementChild);
+    console.log(parentEle.lastElementChild);
+
+    parentEle.children[2].style.color = "orange";
+
+    console.log("");
+    const firstIndexChild = document.querySelector('.day');
+    console.log(firstIndexChild);
+    console.log(firstIndexChild.parentElement);
+    console.log(firstIndexChild.nextElementSibling);
+    console.log(firstIndexChild.previousElementSibling);
+
+    console.log("Nodes: ", parentEle.childNodes);
+    /*
+    NodeList(15) [text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text]
+    0: text
+    1: div.day
+    2: text
+    3: div.day
+    4: text
+    5: div.day
+    6: text
+    7: div.day
+    8: text
+    9: div.day
+    10: text
+    11: div.day
+    12: text
+    13: div.day
+    14: text
+    length: 15
+    [[Prototype]]: NodeList
+    */
+    
+    <!-- console.log("Nodes: ", parentEle.childNodes); -->
+    //  after adding of one <p> </p> it will increased the nodes
+    /*
+    Nodes:  NodeList(17) [text, p, text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text, div.day, text]
+    0: text
+    1: p2: text
+    3: div.day
+    4: text
+    5: div.day
+    6: text
+    7: div.day
+    8: text
+    9: div.day
+    10: text
+    11: div.day
+    12: text
+    13: div.day
+    14: text
+    15: div.day
+    16: text
+    length: 17
+    [[Prototype]]: NodeList
+    */
+
+    
+</script>
+</html>

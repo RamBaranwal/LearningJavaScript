@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html Events </title>
+</head>
+<body style="background-color: #414141; color: aliceblue;">
+    <h2>Amazing image</h2>
+    <div >
+        <ul id="images">
+            <li><img width="200px" id="photoshop" src="https://images.pexels.com/photos/3561339/pexels-photo-3561339.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt="photoshop"></li>
+            <li><img width="200px" id="japan" src="https://images.pexels.com/photos/3532553/pexels-photo-3532553.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><img width="200px" id="river" src="https://images.pexels.com/photos/3532551/pexels-photo-3532551.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><img width="200px" id="owl" src="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt="" ></li>
+            <!-- <li><img width="200px" id="owl" 
+                src="https://images.pexels.com/photos/3532552/pexels-photo-3532552.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" 
+                alt="" 
+                onclick="alert('Owl')">
+            </li> -->
+            <li><img width="200px" id="prayer" src="https://images.pexels.com/photos/2522671/pexels-photo-2522671.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load" alt=""></li>
+            <li><a style="color: aliceblue;" href="https://google.com" id="google">Google</a></li>
+        </ul>
+   </div>
+</body>
+<script>
+    // javascript is sequenculy but some time we do asyncronomus
+
+    // -------------------------------------------------------------------------------------------------
+    // both are used by getElementById and querySelector -> but using onclick gives less functionality
+    // instead of it we use addEventListener
+    // -------------------------------------------------------------------------------------------------
+    // document.querySelector('#owl').onclick = function(){
+    //     alert("owl is clicked");
+    // }
+
+    // document.getElementById('japan').onclick = () =>{
+    //     alert('japan is clicked');
+    // }
+    // --------------------------------------------------------------------------------------------------
+
+    // ------------------------------------------------------------------------------------------------------------------------
+    // addEventListener is 3 attributes to pass by default third is false we can write or not its on us if its needed we write
+    // attachEvent() -> worked on e-explorer
+    // jQuery - on
+
+    // ---------------------------------------------------
+    // we have to learn by self ->
+    // types, timeStamp, defaultPrevented
+    // target, toElement, srcElement, currElement
+    // clientX, clientY, screenX, screenY, tiltX, tiltY
+    // altKey, cltKey, shiftKey, keyCode
+    // ----------------------------------------------------
+
+    // ----------------------------------------------------------------------------------------------------------------------
+    // =========================
+    // false -> event bubbling
+    // true -> event capturing
+    // =========================
+    // ----------------------------------------------------------------------------------------------------------------------
+    // +++++++++++++++ true and false scenario ++++++++++++++++++++++
+    // ----------------------------------------------------------------------------------------------------------------------
+    // document.getElementById('owl').addEventListener('click', function (e) {
+    //     <!-- alert('owl clicked again'); -->
+    //     // console.log(e);   // ---------------return pointerEvent have too many method and sub-methods-------------------
+    //     console.log('owl is clicked')
+    // }, false);
+
+    // document.getElementById('images').addEventListener('click', function(e) {
+    //     <!-- console.log(e); -->
+    //     console.log('ul is clicked');
+    // })
+    // --------- into false scenario -> first owl comes then ul bubble up from down to top of nodes it travel but when it comes to true --------
+    // === OUTPUT ===
+    // owl is clicked
+    // ul is clicked
+    // ==============
+    // ------------------------------------------------------------------------------------------------------------------------
+    // ------------------------------------------------------------------------------------------------------------------------
+    // document.getElementById('owl').addEventListener('click', function (e) {
+    //     console.log('owl is clicked')
+    // }, true);
+    // document.getElementById('images').addEventListener('click', function(e) {
+    //     console.log('ul is clicked');
+    // }, true);
+
+    // ---------- into true scenario -> first ul is comes then owl is coming it means it takes from top to bottom capturing ----------
+    // === OUTPUT ===
+    // ul is clicked
+    // owl is clicked
+    // ==============
+    // -------------------------------------------------------------------------------------------------------------------------
+
+
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // ++++++++++ want not to capture above node i want to work only on the owl so we do this ++++++++
+    // -----------------------------------------------------------------------------------------------------------------------------
+    // document.getElementById('owl').addEventListener('click', function (e) {
+    //     console.log('owl was clicked');
+    //     e.stopPropagation();
+    //     // it prevent not execute the above one bubble stopping
+    // }, false)
+    // ------------------------------------------------------------------------------------------------------------------------------
+
+
+    // ---------------------------------------------------------------------------------------------------------------------------
+    // +++++++++++ prevent not going on the next web page we use preventDefault() ++++++++++++++++++++++
+    // ---------------------------------------------------------------------------------------------------------------------------
+    // document.getElementById('images').addEventListener('click', function (e) {
+    //     console.log("ul is clicked");
+    // })
+
+    // document.getElementById('google').addEventListener('click', function (e) {
+    //     e.stopPropagation();        // help not move upside if we not use this it will go upside into nodes
+    //     e.preventDefault();         // helps to not move on the next page after clicking after our command it will go
+    //     console.log('google');
+    // })
+    // -----------------------------------------------------------------------------------------------------------------------------
+
+    // +++++++ Project +++++++++++
+
+    // ----------------------------------------------------------------------------------------------------------------------------
+    // it will gives us wrong senerios when we click the li it will call the ul the parent node and after that remove every thing
+    // ----------------------------------------------------------------------------------------------------------------------------
+    // document.getElementById('images').addEventListener('click', function (e) {
+    //    // console.log(e.target);  // ---------------- gives all the image section only when we click on that image -------------------
+    //     console.log(e.target.parentNode);
+    //     const removeIt = e.target.parentNode;
+    //     removeIt.remove();
+    // })
+
+    // to prevent this senerio
+    // ----------------------------------------------------------------------------------------------------------------------------
+    document.getElementById('images').addEventListener('click', function (e) {
+        console.log(e.target.tagName);
+        if(e.target.tagName === 'IMG'){
+            const removeIt = e.target.parentNode;
+            console.log(e.target.id);
+            removeIt.remove();
+        }
+    })
+
+</script>
+</html>
