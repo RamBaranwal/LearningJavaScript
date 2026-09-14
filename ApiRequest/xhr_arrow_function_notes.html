@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XHR - Arrow Function</title>
+
+    <style>
+        body {
+            background: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 30px;
+        }
+
+        h1 { color: #00d9ff; }
+        h2 { color: #ffd166; margin-top: 30px; }
+        h3 { color: #7ee787; }
+
+        .note {
+            background: #1e1e1e;
+            border-left: 4px solid #00d9ff;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        pre {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #7ee787;
+        }
+
+        .flow {
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>XMLHttpRequest — Arrow Function</h1>
+
+<div class="note">
+    <h2>1. What is XMLHttpRequest?</h2>
+    <p>
+        The <code>XMLHttpRequest</code> object is used to make HTTP
+        requests from JavaScript to a server/API.
+    </p>
+    <p>
+        It allows us to send a request and receive data without
+        refreshing the entire webpage.
+    </p>
+</div>
+
+<h2>2. readyState</h2>
+
+<pre>
+0 → UNSENT
+    Client has been created.
+    open() has NOT been called.
+
+1 → OPENED
+    open() has been called.
+
+2 → HEADERS_RECEIVED
+    send() has been called.
+    Response headers are available.
+
+3 → LOADING
+    Response body is being downloaded.
+
+4 → DONE
+    Request is complete.
+</pre>
+
+<div class="note">
+    <h2>3. Important Methods</h2>
+
+    <h3>new XMLHttpRequest()</h3>
+    <p>Creates the XHR object.</p>
+
+    <h3>open()</h3>
+    <p>
+        Configures the request. It does NOT send the request.
+    </p>
+
+    <pre>xhr.open("GET", requestUrl);</pre>
+
+    <h3>onreadystatechange</h3>
+    <p>
+        This event runs whenever the <code>readyState</code> changes.
+    </p>
+
+    <h3>send()</h3>
+    <p>
+        Actually sends the request to the server.
+    </p>
+
+    <h3>responseText</h3>
+    <p>
+        Contains the server response as a string.
+    </p>
+
+    <h3>JSON.parse()</h3>
+    <p>
+        Converts a JSON string into a JavaScript object.
+    </p>
+</div>
+
+<h2>4. Arrow Function Example</h2>
+
+<pre>
+const requestUrl =
+    "https://api.github.com/users/hiteshchoudhary";
+
+// Step 1: Create XHR object
+const xhr = new XMLHttpRequest();
+
+console.log("1. XHR created");
+console.log("readyState:", xhr.readyState);
+// 0 → UNSENT
+
+
+// Step 2: Configure request
+xhr.open("GET", requestUrl);
+
+console.log("2. open() called");
+console.log("readyState:", xhr.readyState);
+// 1 → OPENED
+
+
+// Step 3: Track state changes
+xhr.onreadystatechange = () => {
+
+    console.log(
+        "3. onreadystatechange → readyState:",
+        xhr.readyState
+    );
+
+    if (xhr.readyState === 4) {
+
+        console.log("4. Request completed!");
+
+        console.log(
+            "5. responseText:",
+            xhr.responseText
+        );
+
+        // JSON string → JavaScript object
+        const data = JSON.parse(xhr.responseText);
+
+        console.log("6. Parsed data:", data);
+        console.log("Name:", data.name);
+        console.log("Followers:", data.followers);
+    }
+};
+
+
+// Step 4: Send request
+console.log("7. Calling send()...");
+xhr.send();
+
+console.log(
+    "8. Immediately after send():",
+    xhr.readyState
+);
+</pre>
+
+<div class="note">
+    <h2>5. Why do we use xhr.responseText?</h2>
+
+    <p>
+        This is an <strong>arrow function</strong>:
+    </p>
+
+    <pre>
+xhr.onreadystatechange = () => {
+    ...
+};
+    </pre>
+
+    <p>
+        Arrow functions do NOT create their own <code>this</code>.
+        They inherit <code>this</code> from the surrounding scope.
+    </p>
+
+    <p>Therefore, use:</p>
+
+    <pre>xhr.responseText</pre>
+
+    <p>instead of:</p>
+
+    <pre>this.responseText</pre>
+</div>
+
+<h2>6. Execution Flow</h2>
+
+<pre class="flow">
+new XMLHttpRequest()
+        ↓
+readyState = 0
+        ↓
+open()
+        ↓
+readyState = 1
+        ↓
+send()
+        ↓
+readyState = 2
+        ↓
+readyState = 3
+        ↓
+readyState = 4
+        ↓
+responseText
+        ↓
+JSON.parse()
+        ↓
+JavaScript Object
+</pre>
+
+<div class="note">
+    <h2>7. Important Observation</h2>
+
+    <p>
+        <code>send()</code> starts the request, but JavaScript does
+        not wait for the server response.
+    </p>
+
+    <p>
+        Therefore, this:
+    </p>
+
+    <pre>
+xhr.send();
+
+console.log(xhr.readyState);
+    </pre>
+
+    <p>
+        can print <code>1</code> immediately after <code>send()</code>.
+        Later, when the server responds, the
+        <code>onreadystatechange</code> function runs and you see
+        states such as <code>2</code>, <code>3</code>, and
+        <code>4</code>.
+    </p>
+</div>
+
+<script>
+    console.clear();
+
+    const requestUrl =
+        "https://api.github.com/users/hiteshchoudhary";
+
+    console.log("================================");
+    console.log("XHR - ARROW FUNCTION");
+    console.log("================================");
+
+    const xhr = new XMLHttpRequest();
+
+    console.log("1. XHR created");
+    console.log("readyState:", xhr.readyState);
+
+    xhr.open("GET", requestUrl);
+
+    console.log("2. open() called");
+    console.log("readyState:", xhr.readyState);
+
+    xhr.onreadystatechange = () => {
+
+        console.log(
+            "3. onreadystatechange → readyState:",
+            xhr.readyState
+        );
+
+        if (xhr.readyState === 4) {
+
+            console.log("4. Request completed!");
+            console.log("Status:", xhr.status);
+
+            console.log("5. responseText:", xhr.responseText);
+
+            const data = JSON.parse(xhr.responseText);
+
+            console.log("6. Parsed data:", data);
+            console.log("Type of this ", typeof data);
+            console.log("Name:", data.name);
+            console.log("Type of this ", typeof data.name);
+            console.log("Followers:", data.followers);
+        }
+    };
+
+    console.log("7. Calling send()...");
+    xhr.send();
+
+    console.log(
+        "8. Immediately after send():",
+        xhr.readyState
+    );
+</script>
+
+</body>
+</html>

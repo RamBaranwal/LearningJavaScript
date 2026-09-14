@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>XMLHttpRequest Complete Notes</title>
+
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #00d9ff;
+        }
+
+        h2 {
+            color: #ffd166;
+            margin-top: 35px;
+        }
+
+        h3 {
+            color: #7ee787;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        th,
+        td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #222;
+            color: #00d9ff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #1b1b1b;
+        }
+
+        .note {
+            background-color: #1e1e1e;
+            border-left: 4px solid #00d9ff;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .warning {
+            background-color: #2a1f1f;
+            border-left: 4px solid #ff6b6b;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        pre {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        code {
+            color: #7ee787;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h1>XMLHttpRequest — Complete Notes</h1>
+    <!-- =========================================================
+         WHAT IS XMLHttpRequest?
+    ========================================================== -->
+    <h2>1. What is XMLHttpRequest?</h2>
+    <p>
+        The <code>XMLHttpRequest</code> object is used to make HTTP
+        requests from JavaScript to a server/API.
+    </p>
+    <p>
+        It allows us to send a request and receive data without
+        refreshing the entire webpage.
+    </p>
+    <pre>
+const xhr = new XMLHttpRequest();
+    </pre>
+    <!-- =========================================================
+         READY STATE
+    ========================================================== -->
+    <h2>2. XMLHttpRequest.readyState</h2>
+    <p>
+        The <code>XMLHttpRequest.readyState</code> property returns
+        the state an XMLHttpRequest client is in.
+    </p>
+    <p>
+        An XHR client exists in one of the following states:
+    </p>
+    <table>
+        <tr>
+            <th>Value</th>
+            <th>State</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>0</td>
+            <td>UNSENT</td>
+            <td>
+                Client has been created.
+                <code>open()</code> not called yet.
+            </td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>OPENED</td>
+            <td>
+                <code>open()</code> has been called.
+            </td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>HEADERS_RECEIVED</td>
+            <td>
+                <code>send()</code> has been called, and headers
+                and status are available.
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>LOADING</td>
+            <td>
+                Downloading; <code>responseText</code> holds
+                partial data.
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>DONE</td>
+            <td>
+                The operation is complete.
+            </td>
+        </tr>
+    </table>
+    <!-- =========================================================
+         DETAILED STATES
+    ========================================================== -->
+    <h2>3. Detailed Explanation of Each State</h2>
+    <h3>0 — UNSENT</h3>
+    <p>
+        The XMLHttpRequest client has been created, but the
+        <code>open()</code> method hasn't been called yet.
+    </p>
+    <h3>1 — OPENED</h3>
+    <p>
+        The <code>open()</code> method has been invoked.
+    </p>
+    <p>
+        During this state, the request headers can be set using
+        the <code>setRequestHeader()</code> method and the
+        <code>send()</code> method can be called which will
+        initiate the fetch.
+    </p>
+    <h3>2 — HEADERS_RECEIVED</h3>
+    <p>
+        <code>send()</code> has been called, all redirects (if any)
+        have been followed and the response headers have been received.
+    </p>
+    <h3>3 — LOADING</h3>
+    <p>
+        Response's body is being received.
+    </p>
+    <p>
+        If <code>responseType</code> is <code>"text"</code> or an
+        empty string, <code>responseText</code> will have the
+        partial text response as it loads.
+    </p>
+    <h3>4 — DONE</h3>
+    <p>
+        The fetch operation is complete.
+    </p>
+    <p>
+        This could mean that either the data transfer has been
+        completed successfully or failed.
+    </p>
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+    <script>
+        /*
+        ============================================================
+        COMMON API URL
+        ============================================================
+        */
+        const requestUrl =
+            "https://api.github.com/users/hiteshchoudhary";
+        /*
+        ============================================================
+        READY STATE MEANINGS
+        ============================================================
+        0 → UNSENT
+            XHR object created.
+            open() has NOT been called.
+
+        1 → OPENED
+            open() has been called.
+
+        2 → HEADERS_RECEIVED
+            send() has been called.
+            Response headers are available.
+
+        3 → LOADING
+            Response body is being downloaded.
+
+        4 → DONE
+            Request is complete.
+        ============================================================
+        */
+        /*
+        ============================================================
+        METHOD 1 — ARROW FUNCTION
+        ============================================================
+        */
+        console.log("======================================");
+        console.log("METHOD 1: ARROW FUNCTION");
+        console.log("======================================");
+        // Create XHR object
+        const xhrArrow = new XMLHttpRequest();
+        console.log(
+            "After creating XHR:",
+            xhrArrow.readyState
+        );
+        // Expected:
+        // 0 → UNSENT
+        /*
+        ------------------------------------------------------------
+        open()
+        open() configures the request.
+        It does NOT send the request.
+
+        Syntax:
+        xhr.open(method, URL);
+        ------------------------------------------------------------
+        */
+        xhrArrow.open("GET", requestUrl);
+        console.log(
+            "After open():",
+            xhrArrow.readyState
+        );
+        // Expected:
+        // 1 → OPENED
+        /*
+        ------------------------------------------------------------
+        onreadystatechange
+        This event runs whenever readyState changes.
+        ------------------------------------------------------------
+        */
+        xhrArrow.onreadystatechange = () => {
+            console.log(
+                "Arrow Function → readyState:",
+                xhrArrow.readyState
+            );
+            /*
+            --------------------------------------------------------
+            When readyState becomes 4:
+            The request operation is complete.
+            --------------------------------------------------------
+            */
+            if (xhrArrow.readyState === 4) {
+                console.log(
+                    "Arrow Function → Request completed!"
+                );
+                /*
+                ----------------------------------------------------
+                responseText
+                responseText contains the server response
+                as a STRING.
+                ----------------------------------------------------
+                */
+                console.log(
+                    "Response Text:",
+                    xhrArrow.responseText
+                );
+                /*
+                ----------------------------------------------------
+                JSON.parse()
+                The API returns JSON.
+                JSON.parse() converts:
+                JSON STRING
+                      ↓
+                JavaScript OBJECT
+                ----------------------------------------------------
+                */
+                const data =
+                    JSON.parse(xhrArrow.responseText);
+                console.log(
+                    "Arrow Function → Parsed Data:",
+                    data
+                );
+                console.log(
+                    "Name:",
+                    data.name
+                );
+                console.log(
+                    "Followers:",
+                    data.followers
+                );
+            }
+        };
+        /*
+        ------------------------------------------------------------
+        send()
+        send() actually sends the request to the server.
+        ------------------------------------------------------------
+        */
+        console.log("Calling send()...");
+        xhrArrow.send();
+        console.log(
+            "After send():",
+            xhrArrow.readyState
+        );
+        /*
+        ============================================================
+        IMPORTANT — ARROW FUNCTION AND this
+        ============================================================
+        Arrow functions DO NOT create their own `this`.
+        Therefore:
+        ❌ this.responseText
+        should NOT be used to access the XHR object here.
+        Instead use:
+        ✅ xhrArrow.responseText
+        because xhrArrow is the variable containing our
+        XMLHttpRequest object.
+        ============================================================
+        */
+        /*
+        ============================================================
+        METHOD 2 — NORMAL FUNCTION
+        ============================================================
+        */
+        console.log("");
+        console.log("======================================");
+        console.log("METHOD 2: NORMAL FUNCTION");
+        console.log("======================================");
+        // Create another XHR object
+        const xhrNormal = new XMLHttpRequest();
+        console.log(
+            "After creating XHR:",
+            xhrNormal.readyState
+        );
+        // 0 → UNSENT
+        // Configure request
+        xhrNormal.open("GET", requestUrl);
+        console.log(
+            "After open():",
+            xhrNormal.readyState
+        );
+        // 1 → OPENED
+        /*
+        ------------------------------------------------------------
+        NORMAL FUNCTION
+        Here we use:
+        function () {}
+        instead of:
+        () => {}
+        A normal function can have its own `this`.
+        ------------------------------------------------------------
+        */
+        xhrNormal.onreadystatechange = function () {
+            console.log(
+                "Normal Function → readyState:",
+                this.readyState
+            );
+            if (this.readyState === 4) {
+                console.log(
+                    "Normal Function → Request completed!"
+                );
+                /*
+                ----------------------------------------------------
+                Here we can use:
+                this.responseText
+                because `this` refers to the XHR object when the
+                event handler is invoked in this context.
+                ----------------------------------------------------
+                */
+                console.log(
+                    "Response Text:",
+                    this.responseText
+                );
+                const data =
+                    JSON.parse(this.responseText);
+
+
+                console.log(
+                    "Normal Function → Parsed Data:",
+                    data
+                );
+                console.log(
+                    "Name:",
+                    data.name
+                );
+                console.log(
+                    "Followers:",
+                    data.followers
+                );
+            }
+        };
+        // Actually send the request
+        console.log("Calling send()...");
+        xhrNormal.send();
+        /*
+        ============================================================
+        ARROW FUNCTION vs NORMAL FUNCTION
+        ============================================================
+        Arrow Function:
+        xhrArrow.onreadystatechange = () => {
+            xhrArrow.responseText;
+        };
+        `this` is inherited from outside.
+        Normal Function:
+        xhrNormal.onreadystatechange = function () {
+            this.responseText;
+        };
+        `this` can refer to the XHR object for this event handler.
+
+        IMPORTANT:
+        Do NOT do this:
+        xhr.onreadystatechange = () => {
+            ...
+        };
+        xhr.onreadystatechange = function () {
+            ...
+        };
+        The second assignment REPLACES the first one.
+        If you want both examples, use two different XHR objects.
+        ============================================================
+        */
+        /*
+        ============================================================
+        COMPLETE FLOW
+        ============================================================
+        new XMLHttpRequest()
+                ↓
+        0 — UNSENT
+                ↓
+        open()
+                ↓
+        1 — OPENED
+                ↓
+        send()
+                ↓
+        2 — HEADERS_RECEIVED
+                ↓
+        3 — LOADING
+                ↓
+        4 — DONE
+                ↓
+        responseText
+                ↓
+        JSON.parse()
+                ↓
+        JavaScript Object
+        ============================================================
+        */
+
+    </script>
+</body>
+</html>
